@@ -1,8 +1,9 @@
 <?php
 /**
- * User: DOUDOU
- * Date: 2017/10/18
- * Time: 21:57
+ * Created by xLong.
+ * User: DOU
+ * Date: 2018/1/4
+ * Time: 20:51
  */
 
 class MY_Controller extends CI_Controller
@@ -12,25 +13,26 @@ class MY_Controller extends CI_Controller
 
 class Common extends MY_Controller
 {
+    public $data = null;
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function checkIsLogin()
+    public function view($view = null, $flag = true)
     {
-        if (empty($this->session->userdata('userInfo'))) {
-            redirect('account/login');
+        if($flag){
+            $this->load->view("public/data", $this->data); //用于返回数据
+            $this->load->view("public/header");
+            $this->load->view("public/top");
+            $this->load->view("public/menu");
+            empty($view) ? '' : $this->load->view($view);
+            $this->load->view("public/footer");
+        }else{
+            $this->load->view("public/data", $this->data); //用于返回数据
+            $this->load->view("public/header");
+            empty($view) ? '' : $this->load->view($view);
         }
-    }
-
-    public function view($view = null,$data = null)
-    {
-        echo 111;
-        $this->load->view('framework/header');
-        $this->load->view('framework/top');
-        $this->load->view('framework/footer');
-        echo 11111111;
     }
 }
