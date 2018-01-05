@@ -12,13 +12,31 @@
  */
 function dump($data, $name = '')
 {
-    echo '<pre style="background: #dedede;border-radius:5px;padding: 10px;font-size: 12px;font-family: Verdana,Times New Roman;margin: 5px 0;">';
+    echo '<pre style="background: #dedede;border-radius:5px;padding: 10px;font-size: 12px;font-family: Verdana,Times New Roman;margin: 5px 0;text-align: left">';
     if (!empty($name)) {
         echo $name . ':';
         echo "<div style='border-bottom: 1px #2b669a solid;margin: 5px 0;'></div>";
     }
     print_r($data);
     echo '</pre>';
+}
+
+/**
+ * json格式返回数据
+ * @param null $data
+ * @param string $msg
+ * @param int $code
+ */
+function resJson($data = null, $msg = 'success', $code = 0)
+{
+    header('Content-Type:application/json; charset=utf-8');
+    $arr = [
+        'msg'=>$msg,
+        'code'=>$code,
+        'data'=>$data
+    ];
+    echo json_encode($arr);
+    exit();
 }
 
 /**
