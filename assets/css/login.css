@@ -19,7 +19,7 @@ body {
 /*面板*/
 #panel {
     /*最大的容器距离顶部50个像素*/
-    margin-top: 200px;
+    margin-top: 150px;
     display: inline-block;
     background-color: white;
     border: 1px solid #dddddd;

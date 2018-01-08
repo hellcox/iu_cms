@@ -23,24 +23,64 @@ class node_model extends CI_Model
         // 获取主菜单
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->where('node_level',1);
-        $this->db->where('node_menu',1);
+        $this->db->where('node_level', 1);
+        $this->db->where('node_menu', 1);
         $this->db->order_by('node_sort asc');
         $query = $this->db->get();
         $arr = $query->result_array();
         // 获取二级菜单
-        foreach ($arr as $key=>$val){
+        foreach ($arr as $key => $val) {
             $this->db->select('*');
             $this->db->from($this->table);
-            $this->db->where('node_level',2);
-            $this->db->where('node_menu',1);
-            $this->db->where('node_parent_id',$val['node_id']);
+            $this->db->where('node_level', 2);
+            $this->db->where('node_menu', 1);
+            $this->db->where('node_parent_id', $val['node_id']);
             $this->db->order_by('node_sort asc');
             $query = $this->db->get();
             $arr2 = $query->result_array();
             $arr[$key]['child'] = $arr2;
         }
         return $arr;
+    }
+
+    /**
+     * 获取所有节点
+     * @return mixed
+     */
+    public function getAllNode()
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->order_by('node_sort asc');
+        $query = $this->db->get();
+        $rows = $query->result_array();
+        return $rows;
+    }
+
+    /**
+     * 新增记录
+     * @param $data
+     * @return mixed
+     */
+    public function insert($data)
+    {
+        $insertId = $this->db->insert($this->table, $data);
+        return $insertId;
+    }
+
+    /**
+     * 某列是否存在某值
+     * @param $column
+     * @param $value
+     * @return mixed
+     */
+    public function issetValue($column,$value){
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where($column,$value);
+        $query = $this->db->get();
+        $row = $query->row_array();
+        return $row;
     }
 
 
