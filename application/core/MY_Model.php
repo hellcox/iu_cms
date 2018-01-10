@@ -53,7 +53,7 @@ class MY_Model extends CI_Model
      * @param string $select
      * @return mixed
      */
-    public function getRow($select = "*", array $where)
+    public function getRow(array $where,$select = "*")
     {
         $this->db->select($select);
         $this->db->from($this->table);

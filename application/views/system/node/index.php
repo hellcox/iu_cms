@@ -17,7 +17,7 @@
                     <span class="layui-badge-dot layui-bg-green"></span>
                     <?= $val['node_name'] ?>
                     <span style="color: #999">[排序：<?= $val['node_sort'] ?>]</span>
-                    <button id="menu_add" class="layui-btn layui-btn-xs layui-btn-normal" style="float: right;margin-top: 10px" onclick="addNode(this)" data-id="<?= $val['node_id'] ?>">新增菜单
+                    <button class="layui-btn layui-btn-xs layui-btn-normal" style="float: right;margin-top: 10px" data-id="<?= $val['node_id'] ?>" onclick="addNode(this)">新增菜单
                     </button>
                 </h2>
                 <div class="layui-colla-content">
@@ -77,7 +77,7 @@
         <input type="text" id="menu_cn_name" placeholder="菜单名称：系统管理" class="layui-input">
     </div>
     <div class="layui-form-item">
-        <input type="text" id="menu_en_name" placeholder="模块名称：system" class="layui-input">
+        <input type="text" id="menu_ca" placeholder="控制器/方法：node/add" class="layui-input">
     </div>
     <div class="layui-form-item" style="margin-bottom: 0">
         <input type="text" id="menu_sort" placeholder="排序值：99" class="layui-input">
@@ -92,13 +92,42 @@
 <script>
     $ = layui.jquery;
 
-    // 新增节点
-    function addNode(str) {
-        alert(JSON.stringify(str));
+    // 新增菜单
+    function addNode(obj) {
+        var _addMenu = "<?= site_url('system/node/addMenu')?>";
+        layer.open({
+            type: 1
+            , title: '新增菜单'
+            , content: $(".menu_add")
+            , area: ['370px']
+            , btn: ['提交', '取消']
+            , yes: function (index) {
+                var _data = {};
+                _data['cn_name'] = $("#menu_cn_name").val();
+                _data['sort'] = $("#menu_sort").val();
+                _data['menu_ca'] = $("#menu_ca").val();
+                _data['module_id'] = $(obj).data('id');
+                $.ajax({
+                    type: "post",
+                    url: _addMenu,
+                    data: _data,
+                    success: function (res) {
+                        layer.close(index,);
+                        if (res.code == 0) {
+                            layer.msg(res.msg, {time: 1500}, function () {
+                                location.reload();
+                            })
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     $(function () {
-        // 新增菜单
+        // 新增模块
         $("#module_add").click(function () {
             var _addModule = "<?= site_url('system/node/addModule')?>";
             layer.open({

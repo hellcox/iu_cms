@@ -67,6 +67,7 @@ class Node extends Common
         $cnName = $this->input->post('cn_name');
         $pid = $this->input->post('module_id');
         $sort = $this->input->post('sort');
+        $ca = $this->input->post('menu_ca');
 
         if (empty($cnName)) {
             resJson("", "菜单名称不能为空", 2000);
@@ -81,15 +82,33 @@ class Node extends Common
                 $data['node_sort'] = $sort;
             }
         }
-
-        $data['node_name'] = $cnName;
-        $data['node_module'] = $pid;
-        $data['node_level'] = 1;
-        $data['node_menu'] = 1;
-        $data['add_time'] = time();
+        $caArr = explode('/',trim($ca,'/'));
+        if(count($caArr)<=1){
+            resJson("", "按格式输入控制器/方法", 2000);
+        }
 
         $this->load->model('node_model');
-        $id = $this->node_model->insert($data);
-        resJson($id, "添加模块成功", 0);
+        $module = $this->node_model->getRow(['node_id'=>$pid]);
+
+        if(!empty($module)){
+            $data['node_module'] = $module['node_module'];
+            $data['node_name'] = $cnName;
+            $data['node_level'] = 2;
+            $data['node_menu'] = 1;
+            $data['node_parent_id'] = $module['node_id'];
+            $data['add_time'] = time();
+            $data['node_controller'] = $caArr[0];
+            $data['node_action'] = $caArr[1];
+            $id = $this->node_model->insert($data);
+            if($id>0){
+                resJson($id, "添加菜单成功", 0);
+            }else{
+                resJson('', "添加菜单失败", 3);
+            }
+        }else{
+            resJson('', "模块为空", 2);
+        }
+
+
     }
 }
