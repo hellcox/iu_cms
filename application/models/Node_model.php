@@ -6,7 +6,7 @@
  * Time: 15:57
  */
 
-class node_model extends CI_Model
+class node_model extends MY_Model
 {
     public function __construct()
     {
@@ -55,17 +55,6 @@ class node_model extends CI_Model
         $query = $this->db->get();
         $rows = $query->result_array();
         return $rows;
-    }
-
-    /**
-     * 新增记录
-     * @param $data
-     * @return mixed
-     */
-    public function insert($data)
-    {
-        $insertId = $this->db->insert($this->table, $data);
-        return $insertId;
     }
 
     /**

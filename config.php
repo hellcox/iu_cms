@@ -8,5 +8,11 @@
  */
 
 // 测试常量
-define("TEST_VAL","i am test val");
+define('TEST_VAL', 'i am test val');
+
+// redis常量
+define('REDIS_HOST', '127.0.0.1');
+define('REDIS_PORT', '6379');
+define('REDIS_PWD', '');
+define('REDIS_TIMEOUT', '60');
 
