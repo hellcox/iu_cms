@@ -8,11 +8,14 @@
  */
 
 // 测试常量
-define('TEST_VAL', 'i am test val');
+define("TEST_VAL", "i am test val");
+
+// 路径
+define("ROOT_PATH", __DIR__);
 
 // redis常量
-define('REDIS_HOST', '127.0.0.1');
-define('REDIS_PORT', '6379');
-define('REDIS_PWD', '');
-define('REDIS_TIMEOUT', '60');
+define("REDIS_HOST", "127.0.0.1");
+define("REDIS_PORT", "6379");
+define("REDIS_PWD", "");
+define("REDIS_TIMEOUT", "60");
 

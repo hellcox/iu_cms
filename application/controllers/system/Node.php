@@ -82,15 +82,15 @@ class Node extends Common
                 $data['node_sort'] = $sort;
             }
         }
-        $caArr = explode('/',trim($ca,'/'));
-        if(count($caArr)<=1){
+        $caArr = explode('/', trim($ca, '/'));
+        if (count($caArr) <= 1) {
             resJson("", "按格式输入控制器/方法", 2000);
         }
 
         $this->load->model('node_model');
-        $module = $this->node_model->getRow(['node_id'=>$pid]);
+        $module = $this->node_model->getRow(['node_id' => $pid]);
 
-        if(!empty($module)){
+        if (!empty($module)) {
             $data['node_module'] = $module['node_module'];
             $data['node_name'] = $cnName;
             $data['node_level'] = 2;
@@ -99,16 +99,67 @@ class Node extends Common
             $data['add_time'] = time();
             $data['node_controller'] = $caArr[0];
             $data['node_action'] = $caArr[1];
+            $data['node_path'] = $module['node_module'] . '/' . $caArr[0] . '/' . $caArr[1];
             $id = $this->node_model->insert($data);
-            if($id>0){
+            if ($id > 0) {
                 resJson($id, "添加菜单成功", 0);
-            }else{
+            } else {
                 resJson('', "添加菜单失败", 3);
             }
-        }else{
+        } else {
             resJson('', "模块为空", 2);
         }
+    }
 
+    /**
+     * 新增操作
+     */
+    public function addAction()
+    {
+        $cnName = $this->input->post('cn_name');
+        $pid = $this->input->post('module_id');
+        $sort = $this->input->post('sort');
+        $ca = $this->input->post('menu_ca');
 
+        if (empty($cnName)) {
+            resJson("", "操作名称不能为空", 2000);
+        }
+        if (empty($pid)) {
+            resJson("", "菜单ID不能为空", 2000);
+        }
+        if (!empty($sort)) {
+            if (!intval($sort)) {
+                resJson("", "排序值错误", 2000);
+            } else {
+                $data['node_sort'] = $sort;
+            }
+        }
+        $caArr = explode('/', trim($ca, '/'));
+        if (count($caArr) <= 1) {
+            resJson("", "按格式输入控制器/方法", 2000);
+        }
+
+        $this->load->model('node_model');
+        $module = $this->node_model->getRow(['node_id' => $pid]);
+
+        if (!empty($module)) {
+            $data['node_module'] = $module['node_module'];
+            $data['node_name'] = $cnName;
+            $data['node_level'] = 3;
+            $data['node_menu'] = 0;
+            $data['node_parent_id'] = $module['node_id'];
+            $data['add_time'] = time();
+            $data['node_controller'] = $caArr[0];
+            $data['node_action'] = $caArr[1];
+            $data['node_path'] = $module['node_module'] . '/' . $caArr[0] . '/' . $caArr[1];
+            $id = $this->node_model->insert($data);
+            if ($id > 0) {
+                resJson($id, "添加操作成功", 0);
+            } else {
+                resJson('', "添加操作失败", 3);
+            }
+        } else {
+            resJson('', "菜单为空", 2);
+        }
     }
 }

@@ -13,3 +13,4 @@ $config['test'] = 'test:common.conf';
 // 静态插件版本
 $config['jquery'] = '3.2.1';
 $config['layui'] = '2.2.5';
+$config['editor.md'] = '1.5.0';

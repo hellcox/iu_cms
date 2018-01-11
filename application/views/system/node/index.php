@@ -17,7 +17,8 @@
                     <span class="layui-badge-dot layui-bg-green"></span>
                     <?= $val['node_name'] ?>
                     <span style="color: #999">[排序：<?= $val['node_sort'] ?>]</span>
-                    <button class="layui-btn layui-btn-xs layui-btn-normal" style="float: right;margin-top: 10px" data-id="<?= $val['node_id'] ?>" onclick="addNode(this)">新增菜单
+                    <button class="layui-btn layui-btn-xs layui-btn-normal" style="float: right;margin-top: 10px" data-id="<?= $val['node_id'] ?>"
+                            onclick="addNode(this)">新增菜单
                     </button>
                 </h2>
                 <div class="layui-colla-content">
@@ -29,8 +30,8 @@
                                     <span class="layui-badge-dot layui-bg-blue"></span>
                                     <?= $val1['node_name'] ?>
                                     <span style="color: #999">[排序：<?= $val1['node_sort'] ?>]</span>
-                                    <button class="layui-btn layui-btn-xs layui-btn-danger"
-                                            style="float: right;margin-top: 10px">新增操作
+                                    <button class="layui-btn layui-btn-xs layui-btn-danger" data-id="<?= $val1['node_id'] ?>"
+                                            style="float: right;margin-top: 10px" onclick="addAction(this)">新增操作
                                     </button>
                                 </h2>
                                 <div class="layui-colla-content">
@@ -84,6 +85,19 @@
     </div>
 </div>
 
+<!--新增操作-->
+<div class="action_add" style="display:none;padding: 15px 10px 0 10px;">
+    <div class="layui-form-item">
+        <input type="text" id="action_cn_name" placeholder="菜单名称：系统管理" class="layui-input">
+    </div>
+    <div class="layui-form-item">
+        <input type="text" id="action_ca" placeholder="控制器/方法：node/add" class="layui-input">
+    </div>
+    <div class="layui-form-item" style="margin-bottom: 0">
+        <input type="text" id="action_sort" placeholder="排序值：99" class="layui-input">
+    </div>
+</div>
+
 
 
 
@@ -91,6 +105,40 @@
 <script src="<?= lib_url('layui', 'layui.all.js') ?>" charset="utf-8"></script>
 <script>
     $ = layui.jquery;
+
+    // 新增操作
+    function addAction(obj) {
+        var _addAction = "<?= site_url('system/node/addAction')?>";
+        layer.open({
+            type: 1
+            , title: '新增操作'
+            , content: $(".action_add")
+            , area: ['370px']
+            , btn: ['提交', '取消']
+            , yes: function (index) {
+                var _data = {};
+                _data['cn_name'] = $("#action_cn_name").val();
+                _data['sort'] = $("#action_sort").val();
+                _data['menu_ca'] = $("#action_ca").val();
+                _data['module_id'] = $(obj).data('id');
+                $.ajax({
+                    type: "post",
+                    url: _addAction,
+                    data: _data,
+                    success: function (res) {
+                        layer.close(index,);
+                        if (res.code == 0) {
+                            layer.msg(res.msg, {time: 1500}, function () {
+                                location.reload();
+                            })
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    }
+                });
+            }
+        });
+    }
 
     // 新增菜单
     function addNode(obj) {
