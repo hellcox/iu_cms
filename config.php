@@ -11,7 +11,7 @@
 define("TEST_VAL", "i am test val");
 
 // 路径
-define("ROOT_PATH", __DIR__);
+define("ROOT_PATH", str_replace("\\","/",__DIR__));
 
 // redis常量
 define("REDIS_HOST", "127.0.0.1");

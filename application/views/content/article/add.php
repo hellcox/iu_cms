@@ -32,11 +32,10 @@
         </div>
 
         <div class="layui-form-item">
-            <button type="button" class="layui-btn layui-btn-xs" id="up-art-cover">
+            <button type="button" class="layui-btn layui-btn-xs" id="up-art-cover" style="margin-bottom: 5px;">
                 <i class="layui-icon">&#xe67c;</i>上传封面
             </button>
-            <br><br>
-            <img src="<?=base_url('assets/image/cover.jpg')?>" alt="" height="100">
+            <div class="art-cover"></div>
         </div>
 
     </form>
@@ -58,21 +57,30 @@
     $(function () {
         testEditor = editormd("editormd", {
             width: "100%",
-            height: 540,
+            height: 500,
             path: "<?= lib_url('editor.md', 'lib/') ?>",
         });
     });
-    layui.use('upload', function(){
+    layui.use('upload', function () {
         var upload = layui.upload;
 
         //执行实例
         var uploadInst = upload.render({
             elem: '#up-art-cover' //绑定元素
-            ,url: '/upload/' //上传接口
-            ,done: function(res){
+            , url: "<?=site_url('common/upload/image')?>" //上传接口
+            , done: function (res) {
                 //上传完毕回调
+                if (res.code == 0) {
+                    var imgUrl = "<?=base_url('upload/')?>"+res.data.upload_data.file_name;
+                    var image = '<img src="' + imgUrl + '" alt="" height="100">';
+                    $(".art-cover").empty();
+                    $(".art-cover").append(image);
+                    layer.msg(res.msg);
+                } else {
+                    layer.msg(res.msg);
+                }
             }
-            ,error: function(){
+            , error: function () {
                 //请求异常回调
             }
         });
