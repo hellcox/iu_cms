@@ -21,13 +21,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-                <input type="text" name="title" autocomplete="off" placeholder="desc" class="layui-input">
+                <input type="text" name="desc" autocomplete="off" placeholder="desc" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">关键词</label>
             <div class="layui-input-block">
-                <input type="text" name="title" autocomplete="off" placeholder="keywords" class="layui-input">
+                <input type="text" name="keywords" autocomplete="off" placeholder="keywords" class="layui-input">
             </div>
         </div>
 
@@ -35,6 +35,7 @@
             <button type="button" class="layui-btn layui-btn-xs" id="up-art-cover" style="margin-bottom: 5px;">
                 <i class="layui-icon">&#xe67c;</i>上传封面
             </button>
+            <input type="hidden" name="art-cover" value="">
             <div class="art-cover"></div>
         </div>
 
@@ -71,10 +72,11 @@
             , done: function (res) {
                 //上传完毕回调
                 if (res.code == 0) {
-                    var imgUrl = "<?=base_url('upload/')?>"+res.data.upload_data.file_name;
+                    var imgUrl = res.data.file_url;
                     var image = '<img src="' + imgUrl + '" alt="" height="100">';
                     $(".art-cover").empty();
                     $(".art-cover").append(image);
+                    $("input[name='art-cover']").val(imgUrl);
                     layer.msg(res.msg);
                 } else {
                     layer.msg(res.msg);

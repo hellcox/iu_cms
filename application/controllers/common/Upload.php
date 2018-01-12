@@ -15,7 +15,13 @@ class Upload extends Common
 
     public function image()
     {
-        $config['upload_path'] = ROOT_PATH . '/upload/';
+        $subPath = '/upload/image/' . date("Y/m/d/", time());
+        $path = ROOT_PATH . $subPath;
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $config['upload_path'] = $path;
         $config['allowed_types'] = 'gif|jpg|png';
         $config['max_size'] = 100;
         $config['max_width'] = 1024;
@@ -25,10 +31,14 @@ class Upload extends Common
 
         if (!$this->upload->do_upload('file')) {
             $error = array('error' => $this->upload->display_errors());
-            resJson($error,"上传失败",0);
+            resJson($error, "上传失败", 100);
         } else {
+
             $data = array('upload_data' => $this->upload->data());
-            resJson($data,"上传成功",0);
+            $res['file_url'] = base_url() . $subPath . $data['upload_data']['file_name'];
+            $res['file_ext'] = $data['upload_data']['file_ext'];
+            $res['file_name'] = $data['upload_data']['file_name'];
+            resJson($res, "上传成功", 0);
         }
     }
 
