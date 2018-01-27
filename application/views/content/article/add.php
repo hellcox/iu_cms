@@ -50,8 +50,6 @@
 
 </div>
 
-<script src="<?= lib_url('jquery', 'jquery.js') ?>" charset="utf-8"></script>
-<script src="<?= lib_url('layui', 'layui.all.js') ?>" charset="utf-8"></script>
 <script src="<?= lib_url('editor.md', 'editormd.js') ?>" charset="UTF-8"></script>
 <script>
     $ = layui.jquery;

@@ -23,7 +23,7 @@ class Upload extends Common
 
         $config['upload_path'] = $path;
         $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = 100;
+        $config['max_size'] = 100000000;
         $config['max_width'] = 1024;
         $config['max_height'] = 768;
 
