@@ -38,7 +38,6 @@
             <input type="hidden" name="art-cover" value="">
             <div class="art-cover"></div>
         </div>
-
     </form>
 
     <div style="margin-top: 10px;"></div>
@@ -48,17 +47,18 @@
         <textarea style="display:none;">> 写点什么吧...</textarea>
     </div>
 
+    <button type="button" class="layui-btn" onclick="doAddArt()">添加</button>
+
 </div>
 
-<script src="<?= lib_url('jquery', 'jquery.js') ?>" charset="utf-8"></script>
-<script src="<?= lib_url('layui', 'layui.all.js') ?>" charset="utf-8"></script>
 <script src="<?= lib_url('editor.md', 'editormd.js') ?>" charset="UTF-8"></script>
 <script>
     $ = layui.jquery;
     $(function () {
-        testEditor = editormd("editormd", {
+        editor = editormd("editormd", {
             width: "100%",
             height: 500,
+            saveHTMLToTextarea : true,
             path: "<?= lib_url('editor.md', 'lib/') ?>",
         });
     });
@@ -87,4 +87,19 @@
             }
         });
     });
+
+    function doAddArt() {
+        var url = "<?= site_url('content/article/doAdd')?>";
+        var title = $("input[ name='title' ] ").val();
+        var desc = $("input[ name='desc' ] ").val();
+        var keywords = $("input[ name='keywords' ] ").val();
+        var cover = $("input[ name='art-cover' ] ").val();
+        var markContent = editor.getMarkdown();
+        var htmlContent = editor.getHTML();
+
+        var data =  {"title": title, "desc": desc, "keywords": keywords,"cover": cover,"markContent": markContent,"htmlContent": htmlContent};
+        $.post(url,data,function(result){
+            alert(JSON.stringify(result));
+        });
+    }
 </script>

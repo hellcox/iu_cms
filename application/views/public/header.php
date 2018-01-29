@@ -11,7 +11,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
 
-    <link rel="stylesheet" href="<?= lib_url(layui, 'css/layui.css') ?>" media="all">
+    <link rel="stylesheet" href="<?= lib_url('layui', 'css/layui.css') ?>" media="all">
+    <script src="<?= lib_url('jquery', 'jquery.js') ?>" charset="utf-8"></script>
+    <script src="<?= lib_url('layui', 'layui.all.js') ?>" charset="utf-8"></script>
 </head>
 
 
