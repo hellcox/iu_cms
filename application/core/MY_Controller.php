@@ -60,7 +60,7 @@ class Common extends MY_Controller
             }else{
                 $oneActive = "";
             }
-            $html .= "<li class=\"layui-nav-item {$oneActive}\">";
+            $html .= "<li class=\"layui-nav-item line-bot {$oneActive}\">";
             $html .= "<a href=\"javascript:;\">{$val['node_name']}</a>";
             if (!empty($val['child'])) {
                 $html .= "<dl class=\"layui-nav-child\">";

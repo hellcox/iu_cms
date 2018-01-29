@@ -19,13 +19,15 @@ class Upload extends Common
         $path = ROOT_PATH . $subPath;
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
+            chmod($path,0777);
         }
 
         $config['upload_path'] = $path;
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = 100;
-        $config['max_width'] = 1024;
-        $config['max_height'] = 768;
+        $config['allowed_types'] = 'gif|jpg|png|bmp';
+        $config['max_size'] = 1000000;
+        $config['file_name'] = time();
+        // $config['max_width'] = 1024;
+        // $config['max_height'] = 768;
 
         $this->load->library('upload', $config);
 
@@ -35,7 +37,7 @@ class Upload extends Common
         } else {
 
             $data = array('upload_data' => $this->upload->data());
-            $res['file_url'] = base_url() . $subPath . $data['upload_data']['file_name'];
+            $res['file_url'] = base_url() . ltrim($subPath,'/') . $data['upload_data']['file_name'];
             $res['file_ext'] = $data['upload_data']['file_ext'];
             $res['file_name'] = $data['upload_data']['file_name'];
             resJson($res, "上传成功", 0);
