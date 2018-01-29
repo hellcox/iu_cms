@@ -27,4 +27,9 @@ class Article extends Common
         $this->view('content/article/add');
     }
 
+    public function doAdd()
+    {
+        resJson();
+    }
+
 }
