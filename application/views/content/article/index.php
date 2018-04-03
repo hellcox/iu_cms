@@ -6,9 +6,42 @@
         </span>
     </blockquote>
 
-    <a class="layui-btn layui-btn-xs" href="<?=site_url('content/article/add')?>">新增</a>
+    <a class="layui-btn layui-btn-xs" href="<?= site_url('content/article/add') ?>">新增</a>
 
-    <div style="margin-top: 10px;"></div>
+    <div style="margin-top: 10px;">
+        <div class="layui-form">
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>添加时间</th>
+                    <th>修改时间</th>
+                    <th>标题</th>
+                    <th>浏览量</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($articles as $article): ?>
+                    <tr>
+                        <td><?= $article['art_id'] ?></td>
+                        <td><?= date('y/m/d H:i:s',$article['add_time']) ?></td>
+                        <td><?= date('y/m/d H:i:s',$article['update_time']) ?></td>
+                        <td><?= $article['art_title'] ?></td>
+                        <td><?= $article['art_view'] ?></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-xs">查看</button>
+                                <button class="layui-btn layui-btn-xs">编辑</button>
+                                <button class="layui-btn layui-btn-xs">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
 

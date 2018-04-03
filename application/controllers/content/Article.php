@@ -12,6 +12,7 @@ class Article extends Common
     {
         parent::__construct();
         $this->load->model('node_model');
+        $this->load->model('article_model');
     }
 
     /**
@@ -19,6 +20,10 @@ class Article extends Common
      */
     public function index()
     {
+        $page = $_GET['page'];
+        $pageSize = $_GET['page_size'];
+
+        $this->data['articles'] = $this->article_model->getArtList($page,$pageSize);
         $this->view('content/article/index');
     }
 
@@ -29,7 +34,17 @@ class Article extends Common
 
     public function doAdd()
     {
-        resJson();
+        $now = time();
+        $data['art_title'] = $_POST['title'];
+        $data['art_desc'] = $_POST['title'];
+        $data['art_keywords'] = $_POST['title'];
+        $data['art_cover'] = $_POST['title'];
+        $data['art_mk_content'] = $_POST['markContent'];
+        $data['art_content'] = $_POST['htmlContent'];
+        $data['add_time'] = $now;
+        $data['update_time'] = $now;
+        $id = $this->article_model->insert($data);
+        resJson($_POST);
     }
 
 }
